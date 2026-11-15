@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="PreçoCerto: sistema de precificação para pequenos negócios de alimentação. Calcule custos, preço de venda e margem de lucro.">
+  <meta name="theme-color" content="#0b1f3a">
+  <title>PreçoCerto</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo" data-pular-conteudo>Pular para o conteúdo</a>
+
+  <!-- Ícones SVG próprios do projeto (traço simples, 24×24). -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-inicio" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h5v-6h4v6h5V9.5"/></symbol>
+    <symbol id="i-insumos" viewBox="0 0 24 24"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></symbol>
+    <symbol id="i-calculadora" viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7v3h-7zM8.5 13h.01M12 13h.01M15.5 13h.01M8.5 17h.01M12 17h.01M15.5 17h.01"/></symbol>
+    <symbol id="i-produtos" viewBox="0 0 24 24"><path d="M3.5 12.6 11.4 4.7a2 2 0 0 1 1.4-.6H19a1 1 0 0 1 1 1v6.2a2 2 0 0 1-.6 1.4l-7.9 7.9a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8z"/><circle cx="16" cy="8" r="1.4"/></symbol>
+    <symbol id="i-sobre" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6h.01"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></symbol>
+    <symbol id="i-fechar" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-mais" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-editar" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></symbol>
+    <symbol id="i-lixeira" viewBox="0 0 24 24"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></symbol>
+    <symbol id="i-olho" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-copiar" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5.5a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11"/></symbol>
+    <symbol id="i-alerta" viewBox="0 0 24 24"><path d="M12 3.5 2.5 20h19z"/><path d="M12 10v4.5M12 17.2h.01"/></symbol>
+    <symbol id="i-busca" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-moeda" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.5-1-1.6-1.6-3-1.6-1.8 0-3 .9-3 2.2 0 3.2 6 1.6 6 4.6 0 1.3-1.3 2.2-3 2.2-1.5 0-2.6-.6-3.1-1.7M12 6v1.6M12 16.6V18"/></symbol>
+    <symbol id="i-grafico" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="m7.5 15 4-4.5 3 3L20 7"/></symbol>
+    <symbol id="i-caixa" viewBox="0 0 24 24"><path d="M3.5 8 12 4l8.5 4v8L12 20l-8.5-4z"/><path d="M3.5 8 12 12l8.5-4M12 12v8"/></symbol>
+    <symbol id="i-porcentagem" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></symbol>
+    <symbol id="i-cadeado" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-seta" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-frasco" viewBox="0 0 24 24"><path d="M9 3.5h6M10 3.5v5L5 18a2 2 0 0 0 1.8 2.8h10.4A2 2 0 0 0 19 18l-5-9.5v-5"/><path d="M7.2 14h9.6"/></symbol>
+  </svg>
+
+  <div class="app">
+    <header class="barra-topo">
+      <a class="marca marca-compacta" href="#inicio" aria-label="PreçoCerto — ir para o início">
+        <img src="assets/images/logo.svg" alt="" width="32" height="32">
+        <span>PreçoCerto</span>
+      </a>
+      <button class="botao-icone botao-menu" type="button" id="botao-menu" aria-controls="menu-lateral" aria-expanded="false">
+        <svg class="icone" aria-hidden="true"><use href="#i-menu"></use></svg>
+        <span class="visualmente-oculto">Abrir menu</span>
+      </button>
+    </header>
+
+    <aside class="menu-lateral" id="menu-lateral" aria-label="Menu principal">
+      <div class="menu-topo">
+        <a class="marca" href="#inicio">
+          <img src="assets/images/logo.svg" alt="" width="40" height="40">
+          <span class="marca-textos">
+            <span class="marca-nome">PreçoCerto</span>
+            <span class="marca-slogan">Precificação para pequenos negócios</span>
+          </span>
+        </a>
+        <button class="botao-icone botao-fechar-menu" type="button" id="botao-fechar-menu">
+          <svg class="icone" aria-hidden="true"><use href="#i-fechar"></use></svg>
+          <span class="visualmente-oculto">Fechar menu</span>
+        </button>
+      </div>
+      <nav aria-label="Seções do aplicativo">
+        <ul class="menu-lista">
+          <li><a href="#inicio" data-link-rota="inicio"><svg class="icone" aria-hidden="true"><use href="#i-inicio"></use></svg>Início</a></li>
+          <li><a href="#insumos" data-link-rota="insumos"><svg class="icone" aria-hidden="true"><use href="#i-insumos"></use></svg>Insumos</a></li>
+          <li><a href="#calculadora" data-link-rota="calculadora"><svg class="icone" aria-hidden="true"><use href="#i-calculadora"></use></svg>Calculadora</a></li>
+          <li><a href="#produtos" data-link-rota="produtos"><svg class="icone" aria-hidden="true"><use href="#i-produtos"></use></svg>Produtos</a></li>
+          <li><a href="#sobre" data-link-rota="sobre"><svg class="icone" aria-hidden="true"><use href="#i-sobre"></use></svg>Sobre o projeto</a></li>
+        </ul>
+      </nav>
+      <div class="menu-rodape">
+        <svg class="icone" aria-hidden="true"><use href="#i-cadeado"></use></svg>
+        <p>Seus dados ficam salvos apenas neste navegador. Sem login e sem envio para servidores.</p>
+      </div>
+    </aside>
+    <div class="sombra-menu" id="sombra-menu" hidden></div>
+
+    <main class="conteudo" id="conteudo" tabindex="-1">
+      <div class="faixa-alerta" id="faixa-armazenamento" role="alert" hidden></div>
+
+      <!-- ===================== TELA 1: INÍCIO ===================== -->
+      <section class="tela" data-tela="inicio" aria-labelledby="titulo-inicio" hidden>
+        <header class="tela-cabecalho">
+          <div>
+            <p class="sobretitulo">Painel</p>
+            <h1 id="titulo-inicio" tabindex="-1">Visão geral dos seus preços</h1>
+            <p class="tela-descricao">Acompanhe custos, preços de venda e margens dos produtos cadastrados.</p>
+          </div>
+          <a class="botao botao-destaque botao-grande" href="#calculadora">
+            <svg class="icone" aria-hidden="true"><use href="#i-calculadora"></use></svg>
+            Calcular preço de venda
+          </a>
+        </header>
+
+        <div class="grade-indicadores" id="indicadores"></div>
+
+        <div class="grade-painel">
+          <article class="cartao" aria-labelledby="titulo-recentes">
+            <header class="cartao-cabecalho">
+              <h2 id="titulo-recentes">Últimos produtos cadastrados</h2>
+              <a class="link-acao" href="#produtos">Ver todos <svg class="icone" aria-hidden="true"><use href="#i-seta"></use></svg></a>
+            </header>
+            <div id="lista-recentes"></div>
+          </article>
+
+          <aside class="cartao cartao-passos" aria-labelledby="titulo-passos">
+            <h2 id="titulo-passos">Como usar</h2>
+            <ol class="passos">
+              <li><span><strong>Cadastre seus insumos</strong> com a quantidade comprada e o valor pago.</span></li>
+              <li><span><strong>Monte a ficha técnica</strong> do produto na calculadora.</span></li>
+              <li><span><strong>Informe taxas, impostos e margem</strong> e receba o preço sugerido.</span></li>
+              <li><span><strong>Salve e acompanhe</strong> seus produtos e margens.</span></li>
+            </ol>
+            <div class="bloco-demo" id="bloco-demo"></div>
+          </aside>
+        </div>
+
+        <p class="nota-estimativa">
+          <svg class="icone" aria-hidden="true"><use href="#i-alerta"></use></svg>
+          Os resultados são estimativas e dependem da precisão das informações fornecidas. Eles não garantem lucro real:
+          perdas, desperdícios, custos indiretos e variações de preço dos fornecedores também afetam o resultado.
+        </p>
+      </section>
+
+      <!-- ===================== TELA 2: INSUMOS ===================== -->
+      <section class="tela" data-tela="insumos" aria-labelledby="titulo-insumos" hidden>
+        <header class="tela-cabecalho">
+          <div>
+            <p class="sobretitulo">Cadastro</p>
+            <h1 id="titulo-insumos" tabindex="-1">Insumos</h1>
+            <p class="tela-descricao">Ingredientes, embalagens e materiais usados na produção. O custo por grama, mililitro ou unidade é calculado automaticamente.</p>
+          </div>
+        </header>
+
+        <div class="grade-insumos">
+          <form class="cartao formulario" id="form-insumo" novalidate aria-labelledby="titulo-form-insumo">
+            <h2 id="titulo-form-insumo">Novo insumo</h2>
+            <input type="hidden" name="id">
+
+            <div class="campo">
+              <label for="insumo-nome">Nome do insumo</label>
+              <input id="insumo-nome" name="nome" type="text" maxlength="80" autocomplete="off" placeholder="Ex.: Queijo muçarela" aria-describedby="erro-insumo-nome" required>
+              <p class="erro-campo" id="erro-insumo-nome" data-erro="nome" hidden></p>
+            </div>
+
+            <div class="campo">
+              <label for="insumo-categoria">Categoria</label>
+              <select id="insumo-categoria" name="categoria" aria-describedby="erro-insumo-categoria" required></select>
+              <p class="erro-campo" id="erro-insumo-categoria" data-erro="categoria" hidden></p>
+            </div>
+
+            <div class="linha-campos">
+              <div class="campo">
+                <label for="insumo-quantidade">Quantidade comprada</label>
+                <input id="insumo-quantidade" name="quantidade" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 1" aria-describedby="erro-insumo-quantidade" required>
+                <p class="erro-campo" id="erro-insumo-quantidade" data-erro="quantidade" hidden></p>
+              </div>
+              <div class="campo">
+                <label for="insumo-unidade">Unidade</label>
+                <select id="insumo-unidade" name="unidade" aria-describedby="erro-insumo-unidade" required></select>
+                <p class="erro-campo" id="erro-insumo-unidade" data-erro="unidade" hidden></p>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="insumo-valor">Valor total pago</label>
+              <div class="campo-com-prefixo">
+                <span aria-hidden="true">R$</span>
+                <input id="insumo-valor" name="valorTotal" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-insumo-valorTotal" required>
+              </div>
+              <p class="erro-campo" id="erro-insumo-valorTotal" data-erro="valorTotal" hidden></p>
+            </div>
+
+            <div class="previa-custo" id="previa-custo-insumo">
+              <span>Custo unitário calculado</span>
+              <strong>—</strong>
+            </div>
+
+            <p class="erro-campo erro-geral" data-erro="geral" hidden></p>
+
+            <div class="acoes-formulario">
+              <button class="botao botao-primario" type="submit" id="botao-salvar-insumo">
+                <svg class="icone" aria-hidden="true"><use href="#i-check"></use></svg>
+                <span>Salvar insumo</span>
+              </button>
+              <button class="botao botao-secundario" type="button" id="botao-cancelar-insumo" hidden>Cancelar edição</button>
+            </div>
+          </form>
+
+          <article class="cartao" aria-labelledby="titulo-lista-insumos">
+            <header class="cartao-cabecalho cartao-cabecalho-ferramentas">
+              <div>
+                <h2 id="titulo-lista-insumos">Insumos cadastrados</h2>
+                <p class="texto-suave" id="contagem-insumos"></p>
+              </div>
+              <div class="campo-busca">
+                <svg class="icone" aria-hidden="true"><use href="#i-busca"></use></svg>
+                <label class="visualmente-oculto" for="busca-insumos">Pesquisar insumos</label>
+                <input id="busca-insumos" type="search" placeholder="Pesquisar insumo" autocomplete="off">
+              </div>
+            </header>
+            <div id="lista-insumos"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===================== TELA 3: CALCULADORA ===================== -->
+      <section class="tela" data-tela="calculadora" aria-labelledby="titulo-calculadora" hidden>
+        <header class="tela-cabecalho">
+          <div>
+            <p class="sobretitulo" id="sobretitulo-calculadora">Ficha técnica</p>
+            <h1 id="titulo-calculadora" tabindex="-1">Calculadora de precificação</h1>
+            <p class="tela-descricao">Monte a ficha técnica, informe custos e percentuais e veja o preço sugerido em tempo real.</p>
+          </div>
+          <button class="botao botao-secundario" type="button" id="botao-novo-produto">
+            <svg class="icone" aria-hidden="true"><use href="#i-mais"></use></svg>
+            Novo produto
+          </button>
+        </header>
+
+        <div class="grade-calculadora">
+          <form class="pilha" id="form-produto" novalidate aria-label="Ficha técnica do produto">
+            <fieldset class="cartao grupo">
+              <legend><span class="numero-etapa">1</span> Produto</legend>
+              <div class="campo">
+                <label for="produto-nome">Nome do produto</label>
+                <input id="produto-nome" name="nome" type="text" maxlength="80" autocomplete="off" placeholder="Ex.: Hambúrguer artesanal" aria-describedby="erro-produto-nome" required>
+                <p class="erro-campo" id="erro-produto-nome" data-erro="nome" hidden></p>
+              </div>
+              <div class="linha-campos">
+                <div class="campo">
+                  <label for="produto-categoria">Categoria</label>
+                  <input id="produto-categoria" name="categoria" type="text" maxlength="40" list="sugestoes-categorias" autocomplete="off" placeholder="Ex.: Lanches" aria-describedby="erro-produto-categoria">
+                  <datalist id="sugestoes-categorias"></datalist>
+                  <p class="erro-campo" id="erro-produto-categoria" data-erro="categoria" hidden></p>
+                </div>
+                <div class="campo">
+                  <label for="produto-rendimento">Rendimento da receita</label>
+                  <div class="campo-com-sufixo">
+                    <input id="produto-rendimento" name="rendimento" type="text" inputmode="decimal" autocomplete="off" value="1" aria-describedby="ajuda-rendimento erro-produto-rendimento" required>
+                    <span aria-hidden="true">unid.</span>
+                  </div>
+                  <p class="ajuda" id="ajuda-rendimento">Quantas unidades a receita produz.</p>
+                  <p class="erro-campo" id="erro-produto-rendimento" data-erro="rendimento" hidden></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="cartao grupo">
+              <legend><span class="numero-etapa">2</span> Ingredientes da receita</legend>
+              <p class="ajuda">Informe a quantidade usada na <strong>receita inteira</strong>. O custo é dividido pelo rendimento.</p>
+              <div id="aviso-sem-insumos" hidden></div>
+              <div class="lista-ingredientes" id="lista-ingredientes"></div>
+              <p class="erro-campo" data-erro="ingredientes" hidden></p>
+              <div class="rodape-ingredientes">
+                <button class="botao botao-secundario botao-pequeno" type="button" id="botao-adicionar-ingrediente">
+                  <svg class="icone" aria-hidden="true"><use href="#i-mais"></use></svg>
+                  Adicionar ingrediente
+                </button>
+                <p class="total-ingredientes">Custo da receita: <strong id="total-ingredientes">R$ 0,00</strong></p>
+              </div>
+            </fieldset>
+
+            <fieldset class="cartao grupo">
+              <legend><span class="numero-etapa">3</span> Outros custos por unidade</legend>
+              <div class="linha-campos linha-tres">
+                <div class="campo">
+                  <label for="produto-embalagem">Embalagem</label>
+                  <div class="campo-com-prefixo">
+                    <span aria-hidden="true">R$</span>
+                    <input id="produto-embalagem" name="embalagem" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-produto-embalagem">
+                  </div>
+                  <p class="erro-campo" id="erro-produto-embalagem" data-erro="embalagem" hidden></p>
+                </div>
+                <div class="campo">
+                  <label for="produto-outros">Outros custos variáveis</label>
+                  <div class="campo-com-prefixo">
+                    <span aria-hidden="true">R$</span>
+                    <input id="produto-outros" name="outrosCustos" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="ajuda-outros erro-produto-outrosCustos">
+                  </div>
+                  <p class="ajuda" id="ajuda-outros">Ex.: sachês, guardanapo, gás por unidade.</p>
+                  <p class="erro-campo" id="erro-produto-outrosCustos" data-erro="outrosCustos" hidden></p>
+                </div>
+                <div class="campo">
+                  <label for="produto-fixo">Custo fixo rateado</label>
+                  <div class="campo-com-prefixo">
+                    <span aria-hidden="true">R$</span>
+                    <input id="produto-fixo" name="custoFixoUnitario" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="ajuda-fixo erro-produto-custoFixoUnitario">
+                  </div>
+                  <p class="ajuda" id="ajuda-fixo">Opcional. Valor <strong>por unidade</strong>, nunca o total do mês.</p>
+                  <p class="erro-campo" id="erro-produto-custoFixoUnitario" data-erro="custoFixoUnitario" hidden></p>
+                </div>
+              </div>
+              <details class="rateio">
+                <summary>Calcular o custo fixo por unidade</summary>
+                <p class="ajuda">Divida os custos fixos do mês (aluguel, energia, salários…) pela quantidade total de unidades vendidas no mês.</p>
+                <div class="linha-campos linha-rateio">
+                  <div class="campo">
+                    <label for="rateio-mensal">Custos fixos do mês</label>
+                    <div class="campo-com-prefixo">
+                      <span aria-hidden="true">R$</span>
+                      <input id="rateio-mensal" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 3000">
+                    </div>
+                  </div>
+                  <div class="campo">
+                    <label for="rateio-unidades">Unidades vendidas no mês</label>
+                    <input id="rateio-unidades" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 1500">
+                  </div>
+                  <button class="botao botao-secundario botao-pequeno" type="button" id="botao-aplicar-rateio">Aplicar</button>
+                </div>
+                <p class="erro-campo" id="erro-rateio" hidden></p>
+              </details>
+            </fieldset>
+
+            <fieldset class="cartao grupo">
+              <legend><span class="numero-etapa">4</span> Taxas, impostos e margem</legend>
+              <div class="linha-campos linha-tres">
+                <div class="campo">
+                  <label for="produto-taxas">Taxas sobre a venda</label>
+                  <div class="campo-com-sufixo">
+                    <input id="produto-taxas" name="taxas" type="text" inputmode="decimal" autocomplete="off" aria-describedby="ajuda-taxas erro-produto-taxas" required>
+                    <span aria-hidden="true">%</span>
+                  </div>
+                  <p class="ajuda" id="ajuda-taxas">Cartão, aplicativo de delivery…</p>
+                  <p class="erro-campo" id="erro-produto-taxas" data-erro="taxas" hidden></p>
+                </div>
+                <div class="campo">
+                  <label for="produto-impostos">Impostos sobre a venda</label>
+                  <div class="campo-com-sufixo">
+                    <input id="produto-impostos" name="impostos" type="text" inputmode="decimal" autocomplete="off" aria-describedby="ajuda-impostos erro-produto-impostos" required>
+                    <span aria-hidden="true">%</span>
+                  </div>
+                  <p class="ajuda" id="ajuda-impostos">Estimativa (ex.: alíquota do Simples).</p>
+                  <p class="erro-campo" id="erro-produto-impostos" data-erro="impostos" hidden></p>
+                </div>
+                <div class="campo">
+                  <label for="produto-margem">Margem de lucro desejada</label>
+                  <div class="campo-com-sufixo">
+                    <input id="produto-margem" name="margem" type="text" inputmode="decimal" autocomplete="off" aria-describedby="ajuda-margem erro-produto-margem" required>
+                    <span aria-hidden="true">%</span>
+                  </div>
+                  <p class="ajuda" id="ajuda-margem">Sobre o preço de venda.</p>
+                  <p class="erro-campo" id="erro-produto-margem" data-erro="margem" hidden></p>
+                </div>
+              </div>
+              <div class="medidor-percentuais" id="medidor-percentuais"></div>
+              <div class="explicacao-margem">
+                <strong>Margem não é markup.</strong>
+                Uma margem de 30% significa que 30% do <em>preço de venda</em> é lucro. Isso é diferente de somar 30% ao custo:
+                com custo de R$ 10,00, somar 30% dá R$ 13,00, mas o lucro nesse preço é só 23% da venda.
+              </div>
+              <button class="botao botao-texto" type="button" id="botao-salvar-padrao">Usar estes percentuais como padrão em novos produtos</button>
+            </fieldset>
+
+            <fieldset class="cartao grupo">
+              <legend><span class="numero-etapa">5</span> Preço de venda praticado <span class="opcional">(opcional)</span></legend>
+              <div class="campo campo-estreito">
+                <label for="produto-preco">Seu preço de venda</label>
+                <div class="campo-com-prefixo">
+                  <span aria-hidden="true">R$</span>
+                  <input id="produto-preco" name="precoVenda" type="text" inputmode="decimal" autocomplete="off" placeholder="Usar o preço sugerido" aria-describedby="ajuda-preco erro-produto-precoVenda">
+                </div>
+                <p class="ajuda" id="ajuda-preco">Se você já vende por outro valor (ou quer arredondar), informe aqui para ver o lucro real nesse preço.</p>
+                <p class="erro-campo" id="erro-produto-precoVenda" data-erro="precoVenda" hidden></p>
+              </div>
+            </fieldset>
+          </form>
+
+          <aside class="painel-resultado" aria-labelledby="titulo-resultado">
+            <div class="painel-resultado-interno">
+              <h2 id="titulo-resultado">Resultado</h2>
+              <div id="resultado-calculo"></div>
+              <p class="erro-campo erro-geral" id="erro-geral-produto" role="alert" hidden></p>
+              <div class="acoes-resultado">
+                <button class="botao botao-destaque" type="submit" form="form-produto" id="botao-salvar-produto">
+                  <svg class="icone" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Salvar produto</span>
+                </button>
+                <button class="botao botao-claro" type="button" id="botao-copiar-resultado">
+                  <svg class="icone" aria-hidden="true"><use href="#i-copiar"></use></svg>
+                  <span>Copiar resultado</span>
+                </button>
+                <button class="botao botao-texto-claro" type="button" id="botao-limpar-produto">Limpar formulário</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Resumo fixo exibido apenas em telas onde o painel de resultado fica abaixo do formulário. -->
+        <div class="resumo-movel" id="resumo-movel">
+          <div class="resumo-movel-texto">
+            <span>Preço sugerido</span>
+            <strong id="resumo-movel-preco">—</strong>
+          </div>
+          <button class="botao botao-destaque botao-pequeno" type="button" id="botao-ver-resultado">Ver resultado</button>
+        </div>
+      </section>
+
+      <!-- ===================== TELA 4: PRODUTOS ===================== -->
+      <section class="tela" data-tela="produtos" aria-labelledby="titulo-produtos" hidden>
+        <header class="tela-cabecalho">
+          <div>
+            <p class="sobretitulo">Gestão</p>
+            <h1 id="titulo-produtos" tabindex="-1">Produtos cadastrados</h1>
+            <p class="tela-descricao">Custos e preços são recalculados automaticamente sempre que um insumo é alterado.</p>
+          </div>
+          <a class="botao botao-primario" href="#calculadora">
+            <svg class="icone" aria-hidden="true"><use href="#i-mais"></use></svg>
+            Novo produto
+          </a>
+        </header>
+
+        <div class="cartao">
+          <div class="barra-filtros">
+            <div class="campo-busca">
+              <svg class="icone" aria-hidden="true"><use href="#i-busca"></use></svg>
+              <label class="visualmente-oculto" for="busca-produtos">Pesquisar produtos pelo nome</label>
+              <input id="busca-produtos" type="search" placeholder="Pesquisar pelo nome" autocomplete="off">
+            </div>
+            <div class="campo campo-filtro">
+              <label class="visualmente-oculto" for="filtro-categoria">Filtrar por categoria</label>
+              <select id="filtro-categoria"></select>
+            </div>
+            <p class="texto-suave" id="contagem-produtos" aria-live="polite"></p>
+          </div>
+          <div id="lista-produtos"></div>
+        </div>
+      </section>
+
+      <!-- ===================== TELA 5: SOBRE ===================== -->
+      <section class="tela" data-tela="sobre" aria-labelledby="titulo-sobre" hidden>
+        <header class="tela-cabecalho">
+          <div>
+            <p class="sobretitulo">Projeto acadêmico</p>
+            <h1 id="titulo-sobre" tabindex="-1">Sobre o PreçoCerto</h1>
+            <p class="tela-descricao">Sistema Inteligente de Precificação para Pequenos Negócios.</p>
+          </div>
+        </header>
+
+        <div class="grade-sobre">
+          <article class="cartao texto-corrido">
+            <h2>Apresentação</h2>
+            <p>O PreçoCerto é uma aplicação web que ajuda pequenos empreendedores do setor de alimentação, como hamburguerias, pizzarias, confeitarias, restaurantes e vendedores autônomos, a calcular o custo real dos produtos e definir preços de venda com a margem de lucro desejada.</p>
+            <h3>Problema</h3>
+            <p>Muitos pequenos negócios definem preços apenas observando a concorrência ou aplicando valores arbitrários, sem conhecer o custo real de cada produto. Isso pode gerar prejuízos invisíveis, margens insuficientes e dificuldade para manter o negócio financeiramente sustentável.</p>
+            <h3>Objetivo geral</h3>
+            <p>Oferecer uma ferramenta simples, gratuita e acessível que automatize o cálculo de custos, preço de venda, lucro e margem, permitindo que pessoas sem conhecimento financeiro tomem decisões de preço com base em dados.</p>
+            <h3>Público-alvo</h3>
+            <p>Proprietários de restaurantes, lanchonetes, hamburguerias, pizzarias, confeitarias, docerias e vendedores de alimentos em geral, especialmente microempreendedores.</p>
+          </article>
+
+          <article class="cartao texto-corrido">
+            <h2>Funcionalidades</h2>
+            <ul class="lista-marcada">
+              <li>Painel com indicadores de custo, preço e margem.</li>
+              <li>Cadastro de insumos com cálculo automático do custo por grama, mililitro ou unidade.</li>
+              <li>Ficha técnica com conversão de unidades (kg ↔ g, L ↔ ml).</li>
+              <li>Preço sugerido com taxas, impostos e margem sobre o faturamento.</li>
+              <li>Análise de lucro e margem para o preço praticado.</li>
+              <li>Gestão de produtos com pesquisa e filtro por categoria.</li>
+              <li>Cópia do resultado para a área de transferência.</li>
+              <li>Dados salvos no próprio navegador, sem login.</li>
+            </ul>
+          </article>
+
+          <article class="cartao texto-corrido">
+            <h2>Equipe</h2>
+            <ul class="lista-equipe">
+              <li><span class="avatar" aria-hidden="true">MS</span><strong>Maria Eduarda Strelow</strong></li>
+              <li><span class="avatar" aria-hidden="true">PA</span><strong>Pedro Henrique Azevedo</strong></li>
+              <li><span class="avatar" aria-hidden="true">TF</span><strong>Thiago Henrique Fonseca</strong></li>
+            </ul>
+            <h3>Informações acadêmicas</h3>
+            <dl class="lista-definicoes">
+              <div><dt>Instituição</dt><dd>AFYA São Lucas</dd></div>
+              <div><dt>Curso</dt><dd>Ciência da Computação</dd></div>
+              <div><dt>Disciplina</dt><dd>Desenvolvimento Web</dd></div>
+              <div><dt>Professor</dt><dd>Romário Vitorino Ferreira</dd></div>
+            </dl>
+          </article>
+
+          <article class="cartao texto-corrido">
+            <h2>Privacidade e responsabilidade</h2>
+            <p>O PreçoCerto não coleta dados pessoais, não exige login e não envia informações para servidores. Os insumos, produtos e configurações ficam armazenados apenas no <code>localStorage</code> deste navegador.</p>
+            <p>Os valores calculados são <strong>estimativas</strong> e dependem da precisão das informações fornecidas. Eles não representam garantia de lucro, pois perdas, desperdícios, custos indiretos e oscilações de preço também influenciam o resultado.</p>
+            <h3>Seus dados</h3>
+            <p class="texto-suave" id="resumo-dados"></p>
+            <div class="acoes-formulario">
+              <button class="botao botao-perigo" type="button" data-acao="apagar-tudo">
+                <svg class="icone" aria-hidden="true"><use href="#i-lixeira"></use></svg>
+                Apagar todos os dados
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer class="rodape">
+        <p>PreçoCerto · Projeto acadêmico da disciplina de Desenvolvimento Web</p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="area-avisos" id="area-avisos" aria-live="polite"></div>
+
+  <dialog class="dialogo" id="dialogo-confirmacao" aria-labelledby="dialogo-confirmacao-titulo">
+    <form method="dialog">
+      <h2 id="dialogo-confirmacao-titulo"></h2>
+      <div class="dialogo-corpo" id="dialogo-confirmacao-corpo"></div>
+      <div class="dialogo-acoes">
+        <button class="botao botao-secundario" value="cancelar" id="dialogo-confirmacao-cancelar">Cancelar</button>
+        <button class="botao botao-perigo" value="confirmar" id="dialogo-confirmacao-confirmar">Confirmar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialogo dialogo-largo" id="dialogo-detalhes" aria-labelledby="dialogo-detalhes-titulo">
+    <div class="dialogo-cabecalho">
+      <h2 id="dialogo-detalhes-titulo"></h2>
+      <button class="botao-icone" type="button" data-acao="fechar-dialogo">
+        <svg class="icone" aria-hidden="true"><use href="#i-fechar"></use></svg>
+        <span class="visualmente-oculto">Fechar</span>
+      </button>
+    </div>
+    <div class="dialogo-corpo" id="dialogo-detalhes-corpo"></div>
+    <div class="dialogo-acoes" id="dialogo-detalhes-acoes"></div>
+  </dialog>
+
+  <dialog class="dialogo" id="dialogo-copia-manual" aria-labelledby="dialogo-copia-titulo">
+    <form method="dialog">
+      <h2 id="dialogo-copia-titulo">Copie o resultado manualmente</h2>
+      <p class="dialogo-corpo" id="dialogo-copia-motivo"></p>
+      <label class="visualmente-oculto" for="texto-copia-manual">Texto do resultado</label>
+      <textarea id="texto-copia-manual" rows="10" readonly></textarea>
+      <div class="dialogo-acoes">
+        <button class="botao botao-primario" value="ok">Fechar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <noscript>
+    <div class="aviso-noscript">O PreçoCerto precisa do JavaScript ativado para funcionar.</div>
+  </noscript>
+</body>
+</html>
